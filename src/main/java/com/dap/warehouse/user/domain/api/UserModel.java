@@ -1,5 +1,6 @@
 package com.dap.warehouse.user.domain.api;
 
+import com.dap.warehouse.area.domain.model.Area;
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.profile.domain.model.Profile;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,8 @@ public class UserModel {
 	private Profile profile;
 
 	private Depot depot;
+
+	private Area area;
 
 	private Boolean active;
 

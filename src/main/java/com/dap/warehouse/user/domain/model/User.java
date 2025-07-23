@@ -1,5 +1,6 @@
 package com.dap.warehouse.user.domain.model;
 
+import com.dap.warehouse.area.domain.model.Area;
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.profile.domain.model.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,10 @@ public class User {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_DEPOT", nullable = false)
 	private Depot depot;
+
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "FKI_AREA", nullable = false)
+	private Area area;
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
