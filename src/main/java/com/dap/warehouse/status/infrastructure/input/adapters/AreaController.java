@@ -1,0 +1,46 @@
+package com.dap.warehouse.status.infrastructure.input.adapters;
+
+import com.dap.warehouse.status.domain.api.AreaRequest;
+import com.dap.warehouse.status.domain.model.Area;
+import com.dap.warehouse.status.infrastructure.input.port.IAreaServiceInputPort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Validated
+@RestController
+@RequestMapping("/dap/warehouse/v1/areaController")
+public class AreaController {
+	
+	@Autowired
+	private IAreaServiceInputPort iAreaServiceFindAllInputPort;
+	
+	@GetMapping("/findAll")
+	public ResponseEntity<List<Area>> findAll(){
+		return this.iAreaServiceFindAllInputPort.findAll();
+	}
+	
+	@GetMapping("/findById/{id}")
+	public ResponseEntity<Area> findById(@PathVariable("id") Integer id){
+		return this.iAreaServiceFindAllInputPort.findById(id);
+	}
+	
+	@DeleteMapping("/deleteById/{id}")
+	public ResponseEntity<Area> deleteById(@PathVariable("id") Integer id){
+		return this.iAreaServiceFindAllInputPort.deleteById(id);
+	}
+	
+	@PostMapping("/save")
+	public ResponseEntity<Area> save(@RequestBody AreaRequest areaRequest){
+		return this.iAreaServiceFindAllInputPort.save(areaRequest);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<Area> update(@RequestBody AreaRequest areaRequest){
+		return this.iAreaServiceFindAllInputPort.save(areaRequest);
+	}
+
+}

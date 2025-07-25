@@ -1,6 +1,7 @@
 package com.dap.warehouse.material.domain.api;
 
 import com.dap.warehouse.depot.domain.model.Depot;
+import com.dap.warehouse.unit.domain.model.Unit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
