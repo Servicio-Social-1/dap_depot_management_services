@@ -7,20 +7,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "AREA", uniqueConstraints = @UniqueConstraint(columnNames = "PKI_AREA"))
+@Table(name = "STATUS_MATERIAL", uniqueConstraints = @UniqueConstraint(columnNames = "PKI_STATUS_MATERIAL"))
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Area {
+public class Status {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PKI_AREA")
-	private Integer idArea;
+	@Column(name = "PKI_STATUS_MATERIAL")
+	private Integer idStatus;
 
-	@Column(name = "FC_NAME")
-	private String name;
+	@Column(name = "FC_STATUS")
+	private String status;
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;

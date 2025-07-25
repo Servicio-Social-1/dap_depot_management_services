@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AreaModel {
+public class StatusModel {
 
-	private Integer idArea;
+	private Integer idStatus;
 
-	private String name;
+	private String status;
 
 	private Boolean active;
 
