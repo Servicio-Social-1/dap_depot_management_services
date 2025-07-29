@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "MATERIAL_TYPE", uniqueConstraints = @UniqueConstraint(columnNames = "PKI_MATERIAL_TYPE"))
+@Table(name = "MATERIAL", uniqueConstraints = @UniqueConstraint(columnNames = "PKI_MATERIAL"))
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,11 +18,11 @@ public class Material {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PKI_MATERIAL_TYPE")
+	@Column(name = "PKI_MATERIAL")
 	private Integer idMaterial;
 
-	@Column(name = "FN_SERIAL_NUMBER")
-	private Integer serialNUmber;
+	@Column(name = "FC_SERIAL_NUMBER")
+	private String serialNumber;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_UNIT", nullable = false)
@@ -34,9 +34,6 @@ public class Material {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_DEPOT", nullable = false)
 	private Depot depot;
-
-	@Column(name = "FI_INDIVIDUAL")
-	private Boolean individual;
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
