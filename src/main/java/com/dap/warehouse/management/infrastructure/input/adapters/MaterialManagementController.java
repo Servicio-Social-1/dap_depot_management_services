@@ -15,31 +15,31 @@ import java.util.List;
 public class MaterialManagementController {
 	
 	@Autowired
-	private IMaterialManagementServiceInputPort iMaterialManagementServiceFindAllInputPort;
+	private IMaterialManagementServiceInputPort iMaterialManagementServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<MaterialManagement>> findAll(){
-		return this.iMaterialManagementServiceFindAllInputPort.findAll();
+		return this.iMaterialManagementServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<MaterialManagement> findById(@PathVariable("id") Integer id){
-		return this.iMaterialManagementServiceFindAllInputPort.findById(id);
+		return this.iMaterialManagementServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<MaterialManagement> deleteById(@PathVariable("id") Integer id){
-		return this.iMaterialManagementServiceFindAllInputPort.deleteById(id);
+		return this.iMaterialManagementServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<MaterialManagement> save(@RequestBody MaterialManagementRequest materialManagementRequest){
-		return this.iMaterialManagementServiceFindAllInputPort.save(materialManagementRequest);
+		return this.iMaterialManagementServiceInputPort.save(materialManagementRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<MaterialManagement> update(@RequestBody MaterialManagementRequest materialManagementRequest){
-		return this.iMaterialManagementServiceFindAllInputPort.save(materialManagementRequest);
+		return this.iMaterialManagementServiceInputPort.save(materialManagementRequest);
 	}
 
 }

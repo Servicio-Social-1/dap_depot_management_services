@@ -15,31 +15,31 @@ import java.util.List;
 public class StatusController {
 	
 	@Autowired
-	private IStatusServiceInputPort iStatusServiceFindAllInputPort;
+	private IStatusServiceInputPort iStatusServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<Status>> findAll(){
-		return this.iStatusServiceFindAllInputPort.findAll();
+		return this.iStatusServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Status> findById(@PathVariable("id") Integer id){
-		return this.iStatusServiceFindAllInputPort.findById(id);
+		return this.iStatusServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Status> deleteById(@PathVariable("id") Integer id){
-		return this.iStatusServiceFindAllInputPort.deleteById(id);
+		return this.iStatusServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Status> save(@RequestBody StatusRequest statusRequest){
-		return this.iStatusServiceFindAllInputPort.save(statusRequest);
+		return this.iStatusServiceInputPort.save(statusRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Status> update(@RequestBody StatusRequest statusRequest){
-		return this.iStatusServiceFindAllInputPort.save(statusRequest);
+		return this.iStatusServiceInputPort.save(statusRequest);
 	}
 
 }

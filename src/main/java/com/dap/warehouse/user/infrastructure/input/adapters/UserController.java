@@ -22,31 +22,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 	
 	@Autowired
-	private IUserServiceInputPort iUserServiceFindAllInputPort;
+	private IUserServiceInputPort iUserServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<User>> findAll(){
-		return this.iUserServiceFindAllInputPort.findAll();
+		return this.iUserServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<User> findById(@PathVariable("id") Integer id){
-		return this.iUserServiceFindAllInputPort.findById(id);
+		return this.iUserServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<User> deleteById(@PathVariable("id") Integer id){
-		return this.iUserServiceFindAllInputPort.deleteById(id);
+		return this.iUserServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<User> save(@RequestBody UserRequest userRequest){
-		return this.iUserServiceFindAllInputPort.save(userRequest);
+		return this.iUserServiceInputPort.save(userRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<User> update(@RequestBody UserRequest userRequest){
-		return this.iUserServiceFindAllInputPort.save(userRequest);
+		return this.iUserServiceInputPort.save(userRequest);
 	}
 
 }

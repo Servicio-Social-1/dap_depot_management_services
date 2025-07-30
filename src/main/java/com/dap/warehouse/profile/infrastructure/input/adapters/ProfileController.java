@@ -15,31 +15,31 @@ import java.util.List;
 public class ProfileController {
 	
 	@Autowired
-	private IProfileServiceInputPort iProfileServiceFindAllInputPort;
+	private IProfileServiceInputPort iProfileServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<Profile>> findAll(){
-		return this.iProfileServiceFindAllInputPort.findAll();
+		return this.iProfileServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Profile> findById(@PathVariable("id") Integer id){
-		return this.iProfileServiceFindAllInputPort.findById(id);
+		return this.iProfileServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Profile> deleteById(@PathVariable("id") Integer id){
-		return this.iProfileServiceFindAllInputPort.deleteById(id);
+		return this.iProfileServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Profile> save(@RequestBody ProfileRequest profileRequest){
-		return this.iProfileServiceFindAllInputPort.save(profileRequest);
+		return this.iProfileServiceInputPort.save(profileRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Profile> update(@RequestBody ProfileRequest profileRequest){
-		return this.iProfileServiceFindAllInputPort.save(profileRequest);
+		return this.iProfileServiceInputPort.save(profileRequest);
 	}
 
 }

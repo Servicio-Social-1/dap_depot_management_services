@@ -16,31 +16,31 @@ import java.util.List;
 public class AreaController {
 	
 	@Autowired
-	private IAreaServiceInputPort iAreaServiceFindAllInputPort;
+	private IAreaServiceInputPort iAreaServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<Area>> findAll(){
-		return this.iAreaServiceFindAllInputPort.findAll();
+		return this.iAreaServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Area> findById(@PathVariable("id") Integer id){
-		return this.iAreaServiceFindAllInputPort.findById(id);
+		return this.iAreaServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Area> deleteById(@PathVariable("id") Integer id){
-		return this.iAreaServiceFindAllInputPort.deleteById(id);
+		return this.iAreaServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Area> save(@RequestBody AreaRequest areaRequest){
-		return this.iAreaServiceFindAllInputPort.save(areaRequest);
+		return this.iAreaServiceInputPort.save(areaRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Area> update(@RequestBody AreaRequest areaRequest){
-		return this.iAreaServiceFindAllInputPort.save(areaRequest);
+		return this.iAreaServiceInputPort.save(areaRequest);
 	}
 
 }

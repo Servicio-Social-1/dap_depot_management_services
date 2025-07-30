@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Validated
@@ -16,31 +15,31 @@ import java.util.List;
 public class UnitController {
 	
 	@Autowired
-	private IUnitServiceInputPort iUnitServiceFindAllInputPort;
+	private IUnitServiceInputPort iUnitServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<Unit>> findAll(){
-		return this.iUnitServiceFindAllInputPort.findAll();
+		return this.iUnitServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Unit> findById(@PathVariable("id") Integer id){
-		return this.iUnitServiceFindAllInputPort.findById(id);
+		return this.iUnitServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Unit> deleteById(@PathVariable("id") Integer id){
-		return this.iUnitServiceFindAllInputPort.deleteById(id);
+		return this.iUnitServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Unit> save(@RequestBody UnitRequest unitRequest){
-		return this.iUnitServiceFindAllInputPort.save(unitRequest);
+		return this.iUnitServiceInputPort.save(unitRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Unit> update(@RequestBody UnitRequest unitRequest){
-		return this.iUnitServiceFindAllInputPort.save(unitRequest);
+		return this.iUnitServiceInputPort.save(unitRequest);
 	}
 
 }

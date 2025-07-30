@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Validated
@@ -16,31 +15,31 @@ import java.util.List;
 public class DepotController {
 	
 	@Autowired
-	private IDepotServiceInputPort iDepotServiceFindAllInputPort;
+	private IDepotServiceInputPort iDepotServiceInputPort;
 	
 	@GetMapping("/findAll")
 	public ResponseEntity<List<Depot>> findAll(){
-		return this.iDepotServiceFindAllInputPort.findAll();
+		return this.iDepotServiceInputPort.findAll();
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Depot> findById(@PathVariable("id") Integer id){
-		return this.iDepotServiceFindAllInputPort.findById(id);
+		return this.iDepotServiceInputPort.findById(id);
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Depot> deleteById(@PathVariable("id") Integer id){
-		return this.iDepotServiceFindAllInputPort.deleteById(id);
+		return this.iDepotServiceInputPort.deleteById(id);
 	}
 	
 	@PostMapping("/save")
 	public ResponseEntity<Depot> save(@RequestBody DepotRequest depotRequest){
-		return this.iDepotServiceFindAllInputPort.save(depotRequest);
+		return this.iDepotServiceInputPort.save(depotRequest);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Depot> update(@RequestBody DepotRequest depotRequest){
-		return this.iDepotServiceFindAllInputPort.save(depotRequest);
+		return this.iDepotServiceInputPort.save(depotRequest);
 	}
 
 }
