@@ -25,6 +25,9 @@ public class Depot {
 	@Column(name = "FC_LOCATION")
 	private String location;
 
+	@Column(name = "FC_KEY")
+	private String key;
+
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
 }

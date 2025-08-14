@@ -22,6 +22,9 @@ public class Area {
 	@Column(name = "FC_NAME")
 	private String name;
 
+	@Column(name = "FC_CONTRACT")
+	private String contract;
+
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
 }

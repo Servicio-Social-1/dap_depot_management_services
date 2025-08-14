@@ -17,6 +17,8 @@ public class DepotModel {
 
 	private String location;
 
+	private String key;
+
 	private Boolean active;
 
 }

@@ -15,6 +15,8 @@ public class AreaModel {
 
 	private String name;
 
+	private String contract;
+
 	private Boolean active;
 
 }
