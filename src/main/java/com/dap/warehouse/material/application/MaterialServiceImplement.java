@@ -109,7 +109,7 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
         } else {
 			lastid = lastid + 1;
 		}
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
 		serialNumber = "MT-" + LocalDate.now().format(format) + lastid;
         return serialNumber;
     }
