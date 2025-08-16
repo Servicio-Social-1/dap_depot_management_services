@@ -11,6 +11,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +88,8 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 		ResponseEntity<Material> response;
 		try {
 			var depotResponse = materialMapper.fromRequestToMapping(materialRequest.getModelRequest());
+            String serialNumber = getSerialNumber();
+			depotResponse.setSerialNumber(serialNumber);
 			var material = iMaterialRepositoryOutputPort.save(depotResponse);
 			response = new ResponseEntity<>(material, HttpStatus.CREATED);
 			
@@ -94,5 +99,19 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 		}
 		return response;
 	}
+
+	public String getSerialNumber(){
+		String serialNumber = null;
+		int lastid = 0;
+        Material lastMaterial = iMaterialRepositoryOutputPort.findFirstByOrderByIdMaterialDesc();
+        if(lastMaterial != null){
+            lastid = lastMaterial.getIdMaterial() + 1;
+        } else {
+			lastid = lastid + 1;
+		}
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		serialNumber = "MT-" + LocalDate.now().format(format) + lastid;
+        return serialNumber;
+    }
 
 }
