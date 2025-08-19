@@ -1,7 +1,6 @@
 package com.dap.warehouse.material.application;
 
 import com.dap.warehouse.depot.domain.model.Depot;
-import com.dap.warehouse.material.domain.api.MaterialModel;
 import com.dap.warehouse.material.domain.api.MaterialRequest;
 import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.material.domain.service.MaterialMapper;
@@ -19,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,16 +36,15 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 	@Autowired
 	private MaterialMapper materialMapper;
 	
-    public ResponseEntity<List<MaterialModel>> findAll(){
+    public ResponseEntity<List<Material>> findAll(){
     	var sortById = Sort.by("idMaterial");
-    	ResponseEntity<List<MaterialModel>> response;
+    	ResponseEntity<List<Material>> response;
     	try {
 			List<Material> materialList = this.iMaterialRepositoryOutputPort.findAll(sortById);
-			List<MaterialModel> materialModelList = createMaterialModelArray(materialList);
-			if (!materialModelList.isEmpty()) {
-				response = new ResponseEntity<>(materialModelList, HttpStatus.OK);
+			if (!materialList.isEmpty()) {
+				response = new ResponseEntity<>(materialList, HttpStatus.OK);
 						} else {
-				response = new ResponseEntity<>(materialModelList, HttpStatus.NO_CONTENT);
+				response = new ResponseEntity<>(materialList, HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -117,37 +113,6 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 						.build());
 			 }
 		   }
-		}
-	}
-
-	public List<MaterialDepot> findRelationshipsByMaterialId(Material material) {
-		List<MaterialDepot> materialDepotList = iMaterialDepotRepositoryOutputPort.findByMaterial(material);
-		if(materialDepotList.isEmpty()){
-			return null;
-		}
-		return materialDepotList;
-	}
-
-	public List<MaterialModel> createMaterialModelArray(List<Material> materialList) {
-		List<MaterialModel> materialModelList = new ArrayList<>();
-		if(materialList != null && !materialList.isEmpty()) {
-		for (Material material : materialList) {
-			List<MaterialDepot> materialDepotList = findRelationshipsByMaterialId(material);
-			List<Depot> depotList;
-			if (materialDepotList != null) {
-				depotList = materialDepotList.stream()
-						.map(MaterialDepot::getDepot)
-						.toList();
-			} else {
-				depotList = null;
-			}
-			MaterialModel materialModel = materialMapper.fromMappingToModel(material);
-			materialModel.setDepotList(depotList);
-            materialModelList.add(materialModel);
-		}
-		    return materialModelList;
-		} else {
-			return null;
 		}
 	}
 

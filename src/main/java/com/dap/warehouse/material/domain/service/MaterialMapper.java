@@ -12,10 +12,4 @@ public class MaterialMapper {
 		var modelMapper = new ModelMapper();
 		return modelMapper.map(modelRequest, Material.class);
 	}
-
-	public MaterialModel fromMappingToModel(Material model) {
-		var modelMapper = new ModelMapper();
-		return modelMapper.map(model, MaterialModel.class);
-	}
-
 }

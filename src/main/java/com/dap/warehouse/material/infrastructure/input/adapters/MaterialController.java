@@ -1,6 +1,5 @@
 package com.dap.warehouse.material.infrastructure.input.adapters;
 
-import com.dap.warehouse.material.domain.api.MaterialModel;
 import com.dap.warehouse.material.domain.api.MaterialRequest;
 import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.material.infrastructure.input.port.IMaterialServiceInputPort;
@@ -19,7 +18,7 @@ public class MaterialController {
 	private IMaterialServiceInputPort iMaterialServiceInputPort;
 	
 	@GetMapping("/findAll")
-	public ResponseEntity<List<MaterialModel>> findAll(){
+	public ResponseEntity<List<Material>> findAll(){
 		return this.iMaterialServiceInputPort.findAll();
 	}
 	
