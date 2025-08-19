@@ -9,10 +9,13 @@ import org.springframework.stereotype.Component;
 public class MaterialMapper {
 	
 	public Material fromRequestToMapping(MaterialModel modelRequest) {
-		
 		var modelMapper = new ModelMapper();
 		return modelMapper.map(modelRequest, Material.class);
-		
+	}
+
+	public MaterialModel fromMappingToModel(Material model) {
+		var modelMapper = new ModelMapper();
+		return modelMapper.map(model, MaterialModel.class);
 	}
 
 }
