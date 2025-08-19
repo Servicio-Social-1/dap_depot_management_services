@@ -2,6 +2,7 @@ package com.dap.warehouse.materialdepot.domain.api;
 
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.material.domain.model.Material;
+import com.dap.warehouse.status.domain.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,5 @@ public class MaterialDepotModel {
 
 	private Integer stock;
 
+	private Status status;
 }

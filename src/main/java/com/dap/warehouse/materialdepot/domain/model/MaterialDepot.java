@@ -2,6 +2,7 @@ package com.dap.warehouse.materialdepot.domain.model;
 
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.material.domain.model.Material;
+import com.dap.warehouse.status.domain.model.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +32,9 @@ public class MaterialDepot {
 
 	@Column(name = "FN_STOCK")
 	private Integer stock;
+
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "FKI_STATUS", nullable = false)
+	private Status status;
 }
 

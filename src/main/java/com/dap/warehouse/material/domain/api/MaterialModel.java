@@ -1,6 +1,5 @@
 package com.dap.warehouse.material.domain.api;
 
-import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.unit.domain.model.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +19,6 @@ public class MaterialModel {
 	private Unit unit;
 
 	private String description;
-
-	private Depot depot;
 
 	private Boolean active;
 

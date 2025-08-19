@@ -1,6 +1,5 @@
 package com.dap.warehouse.material.domain.model;
 
-import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.unit.domain.model.Unit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,10 +29,6 @@ public class Material {
 
 	@Column(name = "FC_DESCRIPTION")
 	private String description;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "FKI_DEPOT", nullable = false)
-	private Depot depot;
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
