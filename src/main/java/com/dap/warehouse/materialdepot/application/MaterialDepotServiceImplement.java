@@ -22,7 +22,8 @@ public class MaterialDepotServiceImplement implements IMaterialDepotServiceInput
 	
 	@Autowired
 	private MaterialDepotMapper materialDepotMapper;
-	
+
+	@Override
     public ResponseEntity<List<MaterialDepot>> findAll(){
     	
     	var sortById = Sort.by("idMaterialDepot");
@@ -59,27 +60,6 @@ public class MaterialDepotServiceImplement implements IMaterialDepotServiceInput
 
 	@Override
 	@Transactional
-	public ResponseEntity<MaterialDepot> deleteById(Integer id) {
-		
-		ResponseEntity<MaterialDepot> response = null;
-		try {
-			Optional<MaterialDepot> optionalDepot = iMaterialDepotRepositoryOutputPort.findById(id);
-			if(optionalDepot.isPresent()) {
-				iMaterialDepotRepositoryOutputPort.delete(optionalDepot.get());
-				response = new ResponseEntity<>(optionalDepot.get(),HttpStatus.MOVED_PERMANENTLY);
-			}else {
-				response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-		} catch (Exception e) {
-			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
-		}
-		return response;
-	}
-	
-
-	@Override
-	@Transactional
 	public ResponseEntity<MaterialDepot> save(MaterialDepotRequest materialDepotRequest) {
 
 		ResponseEntity<MaterialDepot> response;
@@ -91,6 +71,23 @@ public class MaterialDepotServiceImplement implements IMaterialDepotServiceInput
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			return response;	
+		}
+		return response;
+	}
+
+	@Override
+	public ResponseEntity<List<MaterialDepot>> findByDepotId(Integer depotId) {
+		ResponseEntity<List<MaterialDepot>> response = null;
+		try {
+			List<MaterialDepot> materialDepotList = this.iMaterialDepotRepositoryOutputPort.findByDepotId(depotId);
+			if (!materialDepotList.isEmpty()) {
+				response = new ResponseEntity<>(materialDepotList, HttpStatus.OK);
+			} else {
+				response = new ResponseEntity<>(materialDepotList, HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return response;
 		}
 		return response;
 	}

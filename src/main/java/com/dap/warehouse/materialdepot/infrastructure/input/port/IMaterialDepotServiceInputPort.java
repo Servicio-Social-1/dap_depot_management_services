@@ -9,7 +9,7 @@ public interface IMaterialDepotServiceInputPort {
 	
 	ResponseEntity<List<MaterialDepot>> findAll();
 	ResponseEntity<MaterialDepot> findById(Integer id);
-	ResponseEntity<MaterialDepot> deleteById(Integer id);
 	ResponseEntity<MaterialDepot> save(MaterialDepotRequest accessRequest);
+	ResponseEntity<List<MaterialDepot>> findByDepotId(Integer depotId);
 
 }

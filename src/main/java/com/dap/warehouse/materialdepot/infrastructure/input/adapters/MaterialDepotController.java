@@ -27,11 +27,6 @@ public class MaterialDepotController {
 		return this.iMaterialDepotServiceInputPort.findById(id);
 	}
 	
-	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<MaterialDepot> deleteById(@PathVariable("id") Integer id){
-		return this.iMaterialDepotServiceInputPort.deleteById(id);
-	}
-	
 	@PostMapping("/save")
 	public ResponseEntity<MaterialDepot> save(@RequestBody MaterialDepotRequest materialDepotRequest){
 		return this.iMaterialDepotServiceInputPort.save(materialDepotRequest);
@@ -42,4 +37,8 @@ public class MaterialDepotController {
 		return this.iMaterialDepotServiceInputPort.save(materialDepotRequest);
 	}
 
+	@GetMapping("/findByDepot/{depotId}")
+	public ResponseEntity<List<MaterialDepot>> findByDepotId(@PathVariable("depotId") Integer depotId){
+		return this.iMaterialDepotServiceInputPort.findByDepotId(depotId);
+	}
 }
