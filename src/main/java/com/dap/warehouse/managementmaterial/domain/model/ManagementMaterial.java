@@ -1,6 +1,6 @@
 package com.dap.warehouse.managementmaterial.domain.model;
 
-import com.dap.warehouse.management.domain.model.MaterialManagement;
+import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.status.domain.model.Status;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class ManagementMaterial {
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_MATERIAL_MANAGEMENT", nullable = false)
-	private MaterialManagement materialManagement;
+	private Management management;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_MATERIAL", nullable = false)

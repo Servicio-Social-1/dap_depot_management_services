@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaterialManagement {
+public class Management {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class MaterialManagement {
 	private User userDispatcher;
 
 	@Column(name = "FD_DATE")
-	private LocalDate date;;
+	private LocalDate date;
 
 	@Column(name = "FC_COMMENT")
 	private String comment;

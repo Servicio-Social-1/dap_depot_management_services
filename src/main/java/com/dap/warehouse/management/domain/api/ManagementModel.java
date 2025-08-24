@@ -1,18 +1,20 @@
 package com.dap.warehouse.management.domain.api;
 
 import com.dap.warehouse.depot.domain.model.Depot;
+import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaterialManagementModel {
+public class ManagementModel {
 
 	private Integer idMaterialManagement;
 
@@ -27,5 +29,7 @@ public class MaterialManagementModel {
 	private User userReceiver;
 
 	private Depot depot;
+
+	private List<ManagementMaterial> materialList;
 
 }

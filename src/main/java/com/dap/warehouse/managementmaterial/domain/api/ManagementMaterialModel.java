@@ -1,6 +1,6 @@
 package com.dap.warehouse.managementmaterial.domain.api;
 
-import com.dap.warehouse.management.domain.model.MaterialManagement;
+import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.status.domain.model.Status;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class ManagementMaterialModel {
 
 	private Integer idMaterialManagementMaterial;
 
-	private MaterialManagement materialManagement;
+	private Management management;
 
 	private Material material;
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaterialManagementRequest {
+public class ManagementRequest {
 
-	private MaterialManagementModel modelRequest;
+	private ManagementModel modelRequest;
 }

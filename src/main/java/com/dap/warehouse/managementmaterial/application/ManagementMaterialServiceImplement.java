@@ -84,8 +84,8 @@ public class ManagementMaterialServiceImplement implements IManagementMaterialSe
 
 		ResponseEntity<ManagementMaterial> response;
 		try {
-			var depotResponse = managementMaterialMapper.fromRequestToMapping(managementMaterialRequest.getModelRequest());
-			var materialManagement = iManagementMaterialRepositoryOutputPort.save(depotResponse);
+			var managementResponse = managementMaterialMapper.fromRequestToMapping(managementMaterialRequest.getModelRequest());
+			var materialManagement = iManagementMaterialRepositoryOutputPort.save(managementResponse);
 			response = new ResponseEntity<>(materialManagement, HttpStatus.CREATED);
 			
 		} catch (Exception e) {
