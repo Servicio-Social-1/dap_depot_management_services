@@ -5,8 +5,10 @@ import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.management.domain.service.ManagementMapper;
 import com.dap.warehouse.management.infrastructure.input.port.IManagementServiceInputPort;
 import com.dap.warehouse.management.infrastructure.output.port.IManagementRepositoryOutputPort;
-import com.dap.warehouse.managementmaterial.domain.api.ManagementMaterialRequest;
 import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
+import com.dap.warehouse.managementmaterial.infrastructure.output.port.IManagementMaterialRepositoryOutputPort;
+import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
+import com.dap.warehouse.materialdepot.infrastructure.output.port.IMaterialDepotRepositoryOutputPort;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,6 +26,12 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 	
 	@Autowired
 	private ManagementMapper managementMapper;
+
+	@Autowired
+	private IManagementMaterialRepositoryOutputPort iManagementMaterialRepositoryOutputPort;
+
+	@Autowired
+	private IMaterialDepotRepositoryOutputPort iMaterialDepotRepositoryOutputPort;
 	
     public ResponseEntity<List<Management>> findAll(){
     	
@@ -91,7 +99,6 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 			var management = iManagementRepositoryOutputPort.save(depotResponse);
 			addMaterialsToManagement(management, materialList);
 			response = new ResponseEntity<>(management, HttpStatus.CREATED);
-			
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			return response;	
@@ -101,13 +108,21 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 
 	public void addMaterialsToManagement(Management management,
 										 List<ManagementMaterial> materialList) {
-
-
-
+		if(management != null && materialList != null) {
+			for (ManagementMaterial material : materialList) {
+				material.setManagement(management);
+				updateStockMaterial(material);
+				iManagementMaterialRepositoryOutputPort.save(material);
+			}
+		}
 	}
 
 	public void updateStockMaterial(ManagementMaterial material) {
-
+		if(material != null){
+			MaterialDepot materialDepot = iMaterialDepotRepositoryOutputPort.
+					findByMaterialAndStatus(material.getMaterial(), material.getStatus());
+			materialDepot.setStock(materialDepot.getStock() + material.getQuantity());
+		}
 	}
 
 }
