@@ -111,17 +111,22 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		if(management != null && materialList != null) {
 			for (ManagementMaterial material : materialList) {
 				material.setManagement(management);
-				updateStockMaterial(material);
+				updateStockMaterial(material, management.getIo());
 				iManagementMaterialRepositoryOutputPort.save(material);
 			}
 		}
 	}
 
-	public void updateStockMaterial(ManagementMaterial material) {
+	public void updateStockMaterial(ManagementMaterial material, Boolean io) {
 		if(material != null){
 			MaterialDepot materialDepot = iMaterialDepotRepositoryOutputPort.
 					findByMaterialAndStatus(material.getMaterial(), material.getStatus());
-			materialDepot.setStock(materialDepot.getStock() + material.getQuantity());
+			if (io != null && io){
+				materialDepot.setStock(materialDepot.getStock() + material.getQuantity());
+			} else if(io != null && (materialDepot.getStock() - material.getQuantity()) >= 0){
+					materialDepot.setStock(materialDepot.getStock() - material.getQuantity());
+			}
+			iMaterialDepotRepositoryOutputPort.save(materialDepot);
 		}
 	}
 

@@ -30,6 +30,8 @@ public class ManagementModel {
 
 	private Depot depot;
 
+	private Boolean io;
+
 	private List<ManagementMaterial> materialList;
 
 }

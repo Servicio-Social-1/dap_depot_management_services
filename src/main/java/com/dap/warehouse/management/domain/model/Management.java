@@ -42,5 +42,8 @@ public class Management {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_DEPOT", nullable = false)
 	private Depot depot;
+
+	@Column(name = "FI_IO")
+	private Boolean io;
 }
 
