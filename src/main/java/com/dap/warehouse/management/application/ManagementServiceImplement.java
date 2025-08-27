@@ -7,6 +7,7 @@ import com.dap.warehouse.management.infrastructure.input.port.IManagementService
 import com.dap.warehouse.management.infrastructure.output.port.IManagementRepositoryOutputPort;
 import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.managementmaterial.infrastructure.output.port.IManagementMaterialRepositoryOutputPort;
+import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
 import com.dap.warehouse.materialdepot.infrastructure.output.port.IMaterialDepotRepositoryOutputPort;
 import jakarta.transaction.Transactional;
@@ -15,6 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,8 +99,9 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		ResponseEntity<Management> response;
 		try {
 			List<ManagementMaterial> materialList = managementRequest.getModelRequest().getMaterialList();
-			var depotResponse = managementMapper.fromRequestToMapping(managementRequest.getModelRequest());
-			var management = iManagementRepositoryOutputPort.save(depotResponse);
+			var managementResponse = managementMapper.fromRequestToMapping(managementRequest.getModelRequest());
+			managementResponse.setFolio(getSerialNumber());
+			var management = iManagementRepositoryOutputPort.save(managementResponse);
 			addMaterialsToManagement(management, materialList);
 			response = new ResponseEntity<>(management, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -130,4 +135,17 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		}
 	}
 
+	public String getSerialNumber(){
+		String serialNumber;
+		int lastid = 0;
+		Management lastManagement = iManagementRepositoryOutputPort.findFirstByOrderByIdMaterialManagementDesc();
+		if(lastManagement != null){
+			lastid = lastManagement.getIdMaterialManagement() + 1;
+		} else {
+			lastid = lastid + 1;
+		}
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+		serialNumber = "MT-" + LocalDate.now().format(format) + lastid;
+		return serialNumber;
+	}
 }
