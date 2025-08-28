@@ -2,6 +2,8 @@ package com.dap.warehouse.user.application;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.dap.warehouse.access.application.AccessServiceImplement;
 import com.dap.warehouse.user.domain.api.UserRequest;
 import com.dap.warehouse.user.domain.model.User;
 import com.dap.warehouse.user.domain.service.UserMapper;
@@ -84,8 +86,11 @@ public class UserServiceImplement implements IUserServiceInputPort {
 
 		ResponseEntity<User> response;
 		try {
-			var userProfileResponse = userMapper.fromRequestToMapping(userRequest.getModelRequest());
-			var userProfile = iUserRepositoryOutputPort.save(userProfileResponse);
+			var userResponse = userMapper.fromRequestToMapping(userRequest.getModelRequest());
+			AccessServiceImplement accessServiceImplement = new AccessServiceImplement();
+			var hashedKey = accessServiceImplement.hashPassword(userResponse.getPassword());
+			userResponse.setPassword(hashedKey);
+			var userProfile = iUserRepositoryOutputPort.save(userResponse);
 			response = new ResponseEntity<>(userProfile, HttpStatus.CREATED);
 			
 		} catch (Exception e) {
