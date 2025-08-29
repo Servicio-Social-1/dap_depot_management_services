@@ -41,12 +41,14 @@ public class UserController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<User> save(@RequestBody UserRequest userRequest){
-		return this.iUserServiceInputPort.save(userRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iUserServiceInputPort.save(userRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<User> update(@RequestBody UserRequest userRequest){
-		return this.iUserServiceInputPort.save(userRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iUserServiceInputPort.save(userRequest, nameMethod);
 	}
 
 }

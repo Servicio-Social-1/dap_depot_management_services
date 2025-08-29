@@ -10,6 +10,6 @@ public interface IUserServiceInputPort {
 	ResponseEntity<List<User>> findAll();
 	ResponseEntity<User> findById(Integer id);
 	ResponseEntity<User> deleteById(Integer id);
-	ResponseEntity<User> save(UserRequest accessRequest);
+	ResponseEntity<User> save(UserRequest accessRequest, String nameMethod);
 
 }
