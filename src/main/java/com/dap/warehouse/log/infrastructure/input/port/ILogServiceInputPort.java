@@ -1,7 +1,7 @@
-package log.infrastructure.input.port;
+package com.dap.warehouse.log.infrastructure.input.port;
 
-import log.domain.api.LogRequest;
-import log.domain.model.Log;
+import com.dap.warehouse.log.domain.api.LogRequest;
+import com.dap.warehouse.log.domain.model.Log;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

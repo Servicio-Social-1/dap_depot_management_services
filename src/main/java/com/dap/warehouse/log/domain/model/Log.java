@@ -1,4 +1,4 @@
-package log.domain.model;
+package com.dap.warehouse.log.domain.model;
 
 import com.dap.warehouse.user.domain.model.User;
 import jakarta.persistence.*;
@@ -21,16 +21,17 @@ public class Log {
 	@Column(name = "PKI_LOG")
 	private Integer idLog;
 
-	@Column(name = "FC_CREATED_DATE")
+	@Column(name = "FD_DATE")
 	private LocalDate date;
 
 	@Column(name = "FC_OPERATION")
 	private String operation;
 
-	@Column(name = "FI_ENTITY")
+	@Column(name = "FN_ENTITY")
 	private Integer entity;
 
-	@Column(name = "FI_USER")
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "FKI_USER", nullable = false)
 	private User user;
 }
 

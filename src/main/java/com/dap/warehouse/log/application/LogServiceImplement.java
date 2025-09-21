@@ -1,10 +1,10 @@
-package log.application;
+package com.dap.warehouse.log.application;
 
-import log.domain.api.LogRequest;
-import log.domain.model.Log;
-import log.domain.service.LogMapper;
-import log.infrastructure.input.port.ILogServiceInputPort;
-import log.infrastructure.output.port.ILogRepositoryOutputPort;
+import com.dap.warehouse.log.domain.api.LogRequest;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.domain.service.LogMapper;
+import com.dap.warehouse.log.infrastructure.input.port.ILogServiceInputPort;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

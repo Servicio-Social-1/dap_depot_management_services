@@ -1,7 +1,7 @@
-package log.domain.service;
+package com.dap.warehouse.log.domain.service;
 
-import log.domain.api.LogModel;
-import log.domain.model.Log;
+import com.dap.warehouse.log.domain.api.LogModel;
+import com.dap.warehouse.log.domain.model.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package com.dap.warehouse.management.domain.api;
 
+import com.dap.warehouse.applicant.domain.model.Applicant;
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.user.domain.model.User;
@@ -26,7 +27,7 @@ public class ManagementModel {
 
 	private String comment;
 
-	private User userReceiver;
+	private Applicant userReceiver;
 
 	private Depot depot;
 

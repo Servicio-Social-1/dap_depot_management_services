@@ -1,8 +1,8 @@
-package log.infrastructure.input.adapters;
+package com.dap.warehouse.log.infrastructure.input.adapters;
 
-import log.domain.api.LogRequest;
-import log.domain.model.Log;
-import log.infrastructure.input.port.ILogServiceInputPort;
+import com.dap.warehouse.log.domain.api.LogRequest;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.input.port.ILogServiceInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

@@ -1,4 +1,4 @@
-package log.domain.api;
+package com.dap.warehouse.log.domain.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

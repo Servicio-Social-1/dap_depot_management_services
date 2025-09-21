@@ -1,5 +1,6 @@
 package com.dap.warehouse.management.domain.model;
 
+import com.dap.warehouse.applicant.domain.model.Applicant;
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.user.domain.model.User;
 import jakarta.persistence.*;
@@ -37,7 +38,7 @@ public class Management {
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_USER_RECEIVER", nullable = false)
-	private User userReceiver;
+	private Applicant userReceiver;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_DEPOT", nullable = false)

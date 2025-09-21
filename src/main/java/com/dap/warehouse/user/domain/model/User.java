@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Entity
 @Table(name = "USER", uniqueConstraints = @UniqueConstraint(columnNames = "PKI_USER"))
@@ -38,12 +39,16 @@ public class User {
 	private Profile profile;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "FKI_DEPOT", nullable = false)
-	private Depot depot;
-
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_AREA", nullable = false)
 	private Area area;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "USER_DEPOT",
+			joinColumns = @JoinColumn(name = "FKI_USER"),
+			inverseJoinColumns = @JoinColumn(name = "FKI_DEPOT")
+	)
+	private List<Depot> depotList;
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;

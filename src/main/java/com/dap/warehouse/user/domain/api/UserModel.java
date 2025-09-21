@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @Builder
@@ -24,9 +25,9 @@ public class UserModel {
 
 	private Profile profile;
 
-	private Depot depot;
-
 	private Area area;
+
+	private List<Depot> depotList;
 
 	private Boolean active;
 
