@@ -16,9 +16,11 @@ public class AccessController {
 	@Autowired
 	private IAccessServiceInputPort iAccessServiceInputPort;
 	
-	@PutMapping("/validate")
+	@PostMapping("/auth")
 	public ResponseEntity<Access> validateAccess(@RequestBody AccessRequest accessRequest){
 		return this.iAccessServiceInputPort.validateAccess(accessRequest);
 	}
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.dap.warehouse.management.infrastructure.input.adapters;
 
+import com.dap.warehouse.management.domain.api.ManagementModel;
 import com.dap.warehouse.management.domain.api.ManagementRequest;
 import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.management.infrastructure.input.port.IManagementServiceInputPort;
@@ -33,13 +34,9 @@ public class ManagementController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<Management> save(@RequestBody ManagementRequest managementRequest){
+	public ResponseEntity<ManagementModel> save(@RequestBody ManagementRequest managementRequest){
 		return this.iManagementServiceInputPort.save(managementRequest);
 	}
-	
-	@PutMapping("/update")
-	public ResponseEntity<Management> update(@RequestBody ManagementRequest managementRequest){
-		return this.iManagementServiceInputPort.save(managementRequest);
-	}
+
 
 }

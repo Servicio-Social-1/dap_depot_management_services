@@ -1,5 +1,7 @@
 package com.dap.warehouse.materialdepot.infrastructure.input.adapters;
 
+import com.dap.warehouse.materialdepot.domain.api.DuplicatedRequest;
+import com.dap.warehouse.materialdepot.domain.api.MaterialDepotDuplicated;
 import com.dap.warehouse.materialdepot.domain.api.MaterialDepotRequest;
 import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
 import com.dap.warehouse.materialdepot.infrastructure.input.port.IMaterialDepotServiceInputPort;
@@ -40,5 +42,10 @@ public class MaterialDepotController {
 	@GetMapping("/findByDepot/{depotId}")
 	public ResponseEntity<List<MaterialDepot>> findByDepotId(@PathVariable("depotId") Integer depotId){
 		return this.iMaterialDepotServiceInputPort.findByDepotId(depotId);
+	}
+
+	@PostMapping("/findDuplicate")
+	public ResponseEntity<List<MaterialDepotDuplicated>> findDuplicated(@RequestBody DuplicatedRequest duplicatedRequest){
+		return this.iMaterialDepotServiceInputPort.findDuplicated(duplicatedRequest);
 	}
 }

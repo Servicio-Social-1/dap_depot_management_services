@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IUserRepositoryOutputPort extends JpaRepository<User, Integer>{
 
+    User findByMail(String mail);
+
 }

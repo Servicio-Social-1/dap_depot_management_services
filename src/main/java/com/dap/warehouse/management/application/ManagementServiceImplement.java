@@ -1,5 +1,6 @@
 package com.dap.warehouse.management.application;
 
+import com.dap.warehouse.management.domain.api.ManagementModel;
 import com.dap.warehouse.management.domain.api.ManagementRequest;
 import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.management.domain.service.ManagementMapper;
@@ -7,7 +8,6 @@ import com.dap.warehouse.management.infrastructure.input.port.IManagementService
 import com.dap.warehouse.management.infrastructure.output.port.IManagementRepositoryOutputPort;
 import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.managementmaterial.infrastructure.output.port.IManagementMaterialRepositoryOutputPort;
-import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
 import com.dap.warehouse.materialdepot.infrastructure.output.port.IMaterialDepotRepositoryOutputPort;
 import jakarta.transaction.Transactional;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -94,16 +93,17 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Management> save(ManagementRequest managementRequest) {
+	public ResponseEntity<ManagementModel> save(ManagementRequest managementRequest) {
 
-		ResponseEntity<Management> response;
+		ResponseEntity<ManagementModel> response;
 		try {
 			List<ManagementMaterial> materialList = managementRequest.getModelRequest().getMaterialList();
 			var managementResponse = managementMapper.fromRequestToMapping(managementRequest.getModelRequest());
 			managementResponse.setFolio(getSerialNumber());
+			managementRequest.getModelRequest().setFolio(managementResponse.getFolio());
 			var management = iManagementRepositoryOutputPort.save(managementResponse);
 			addMaterialsToManagement(management, materialList);
-			response = new ResponseEntity<>(management, HttpStatus.CREATED);
+			response = new ResponseEntity<>(managementRequest.getModelRequest(), HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			return response;	
@@ -111,6 +111,7 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		return response;
 	}
 
+	@Transactional
 	public void addMaterialsToManagement(Management management,
 										 List<ManagementMaterial> materialList) {
 		if(management != null && materialList != null) {
@@ -122,10 +123,13 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		}
 	}
 
+	@Transactional
 	public void updateStockMaterial(ManagementMaterial material, Boolean io) {
 		if(material != null){
 			MaterialDepot materialDepot = iMaterialDepotRepositoryOutputPort.
-					findByMaterialAndStatus(material.getMaterial(), material.getStatus());
+					findByUniqueFields(material.getMaterial(),
+							material.getManagement().getDepot(),
+							material.getStatus());
 			if (io != null && io){
 				materialDepot.setStock(materialDepot.getStock() + material.getQuantity());
 			} else if(io != null && (materialDepot.getStock() - material.getQuantity()) >= 0){
@@ -135,6 +139,7 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		}
 	}
 
+	@Transactional
 	public String getSerialNumber(){
 		String serialNumber;
 		int lastid = 0;
