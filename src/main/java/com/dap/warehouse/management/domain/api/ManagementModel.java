@@ -35,4 +35,6 @@ public class ManagementModel {
 
 	private List<ManagementMaterial> materialList;
 
+	private String applicantDocument;
+
 }

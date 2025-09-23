@@ -33,5 +33,8 @@ public class Log {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_USER", nullable = false)
 	private User user;
+
+	@Column(name = "FC_TABLE")
+	private String table;
 }
 

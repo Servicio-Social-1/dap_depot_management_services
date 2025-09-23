@@ -46,5 +46,8 @@ public class Management {
 
 	@Column(name = "FI_IO")
 	private Boolean io;
+
+	@Column(name = "FC_APPLICANT_DOCUMENT")
+	private String applicantDocument;
 }
 
