@@ -95,4 +95,22 @@ public class LogServiceImplement implements ILogServiceInputPort {
 		return response;
 	}
 
+
+	@Override
+	public ResponseEntity<List<Log>> findByTableAndEntity(String table, Integer entity) {
+
+		ResponseEntity<List<Log>> response = null;
+		try {
+			List<Log> logList = iLogRepositoryOutputPort.findByTableAndEntity(table, entity);
+			if (!logList.isEmpty()) {
+				response = new ResponseEntity<>(logList, HttpStatus.OK);
+			} else {
+				response = new ResponseEntity<>(logList, HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return response;
+		}
+		return response;
+	}
 }

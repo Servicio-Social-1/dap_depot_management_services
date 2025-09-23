@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Validated
@@ -41,6 +40,13 @@ public class LogController {
 	@PutMapping("/update")
 	public ResponseEntity<Log> update(@RequestBody LogRequest logRequest){
 		return this.iLogServiceInputPort.save(logRequest);
+	}
+
+	@GetMapping("/findByTableAndEntity/{table}/{entity}")
+	public ResponseEntity<List<Log>> findByTableAndEntity(
+			@PathVariable("table") String table,
+	        @PathVariable("entity") Integer entity){
+		return this.iLogServiceInputPort.findByTableAndEntity(table, entity);
 	}
 
 }
