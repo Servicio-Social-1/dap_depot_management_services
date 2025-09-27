@@ -35,12 +35,14 @@ public class ApplicantController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Applicant> save(@RequestBody ApplicantRequest applicantRequest){
-		return this.iApplicantServiceInputPort.save(applicantRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iApplicantServiceInputPort.save(applicantRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Applicant> update(@RequestBody ApplicantRequest applicantRequest){
-		return this.iApplicantServiceInputPort.save(applicantRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iApplicantServiceInputPort.save(applicantRequest, nameMethod);
 	}
 
 }

@@ -9,6 +9,6 @@ public interface IMaterialServiceInputPort {
 	
 	ResponseEntity<List<Material>> findAll();
 	ResponseEntity<Material> findById(Integer id);
-	ResponseEntity<Material> save(MaterialRequest materialRequest);
+	ResponseEntity<Material> save(MaterialRequest materialRequest,String nameMethod);
 
 }

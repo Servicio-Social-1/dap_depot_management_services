@@ -35,7 +35,8 @@ public class ManagementController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<ManagementModel> save(@RequestBody ManagementRequest managementRequest){
-		return this.iManagementServiceInputPort.save(managementRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iManagementServiceInputPort.save(managementRequest,nameMethod);
 	}
 
 

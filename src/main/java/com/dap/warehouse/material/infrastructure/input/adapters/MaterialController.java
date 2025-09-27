@@ -29,12 +29,14 @@ public class MaterialController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Material> save(@RequestBody MaterialRequest materialRequest){
-		return this.iMaterialServiceInputPort.save(materialRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iMaterialServiceInputPort.save(materialRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Material> update(@RequestBody MaterialRequest materialRequest){
-		return this.iMaterialServiceInputPort.save(materialRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iMaterialServiceInputPort.save(materialRequest, nameMethod);
 	}
 
 }

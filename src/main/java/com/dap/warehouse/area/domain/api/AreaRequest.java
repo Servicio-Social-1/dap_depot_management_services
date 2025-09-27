@@ -1,5 +1,6 @@
 package com.dap.warehouse.area.domain.api;
 
+import com.dap.warehouse.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class AreaRequest {
 
 	private AreaModel modelRequest;
+	public User user;
 }

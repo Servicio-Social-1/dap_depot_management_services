@@ -11,6 +11,6 @@ public interface IManagementServiceInputPort {
 	ResponseEntity<List<Management>> findAll();
 	ResponseEntity<Management> findById(Integer id);
 	ResponseEntity<Management> deleteById(Integer id);
-	ResponseEntity<ManagementModel> save(ManagementRequest accessRequest);
+	ResponseEntity<ManagementModel> save(ManagementRequest accessRequest,String nameMethod);
 
 }

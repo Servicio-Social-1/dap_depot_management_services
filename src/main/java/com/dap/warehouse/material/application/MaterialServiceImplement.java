@@ -1,6 +1,8 @@
 package com.dap.warehouse.material.application;
 
 import com.dap.warehouse.depot.domain.model.Depot;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.material.domain.api.MaterialRequest;
 import com.dap.warehouse.material.domain.model.Material;
 import com.dap.warehouse.material.domain.service.MaterialMapper;
@@ -10,6 +12,7 @@ import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
 import com.dap.warehouse.materialdepot.infrastructure.output.port.IMaterialDepotRepositoryOutputPort;
 import com.dap.warehouse.status.domain.model.Status;
 import com.dap.warehouse.status.infrastructure.output.port.IStatusRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -35,6 +38,9 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 	
 	@Autowired
 	private MaterialMapper materialMapper;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Material>> findAll(){
     	var sortById = Sort.by("idMaterial");
@@ -69,7 +75,7 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Material> save(MaterialRequest materialRequest) {
+	public ResponseEntity<Material> save(MaterialRequest materialRequest, String nameMethod) {
 		ResponseEntity<Material> response;
 		try {
 			var depotResponse = materialMapper.fromRequestToMapping(materialRequest.getModelRequest());
@@ -78,6 +84,15 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 			var material = iMaterialRepositoryOutputPort.save(depotResponse);
 			List<Depot> depotList = materialRequest.getModelRequest().getDepotList();
 			addMaterialByStatusAndDepot(depotList, material);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + material)
+					.entity(material.getIdMaterial())
+					.user(materialRequest.getUser())
+					.table(Constants.LOG_TABLE_MATERIAL)
+					.build());
+
 			response = new ResponseEntity<>(material, HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

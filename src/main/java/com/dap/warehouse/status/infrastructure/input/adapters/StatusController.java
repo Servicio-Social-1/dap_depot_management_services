@@ -34,12 +34,14 @@ public class StatusController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Status> save(@RequestBody StatusRequest statusRequest){
-		return this.iStatusServiceInputPort.save(statusRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iStatusServiceInputPort.save(statusRequest,nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Status> update(@RequestBody StatusRequest statusRequest){
-		return this.iStatusServiceInputPort.save(statusRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iStatusServiceInputPort.save(statusRequest,nameMethod);
 	}
 
 }

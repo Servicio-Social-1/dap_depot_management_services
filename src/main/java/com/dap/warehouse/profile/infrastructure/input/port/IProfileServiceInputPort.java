@@ -10,6 +10,6 @@ public interface IProfileServiceInputPort {
 	ResponseEntity<List<Profile>> findAll();
 	ResponseEntity<Profile> findById(Integer id);
 	ResponseEntity<Profile> deleteById(Integer id);
-	ResponseEntity<Profile> save(ProfileRequest accessRequest);
+	ResponseEntity<Profile> save(ProfileRequest accessRequest,String nameMethod);
 
 }

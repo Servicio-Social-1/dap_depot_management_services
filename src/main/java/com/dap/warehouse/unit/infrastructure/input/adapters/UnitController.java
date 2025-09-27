@@ -34,12 +34,14 @@ public class UnitController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Unit> save(@RequestBody UnitRequest unitRequest){
-		return this.iUnitServiceInputPort.save(unitRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iUnitServiceInputPort.save(unitRequest,nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Unit> update(@RequestBody UnitRequest unitRequest){
-		return this.iUnitServiceInputPort.save(unitRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iUnitServiceInputPort.save(unitRequest,nameMethod);
 	}
 
 }

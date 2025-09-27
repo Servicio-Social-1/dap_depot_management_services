@@ -10,6 +10,6 @@ public interface IApplicantServiceInputPort {
 	ResponseEntity<List<Applicant>> findAll();
 	ResponseEntity<Applicant> findById(Integer id);
 	ResponseEntity<Applicant> deleteById(Integer id);
-	ResponseEntity<Applicant> save(ApplicantRequest accessRequest);
+	ResponseEntity<Applicant> save(ApplicantRequest accessRequest, String nameMethod);
 
 }

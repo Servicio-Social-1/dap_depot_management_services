@@ -5,13 +5,16 @@ import com.dap.warehouse.applicant.domain.model.Applicant;
 import com.dap.warehouse.applicant.domain.service.ApplicantMapper;
 import com.dap.warehouse.applicant.infrastructure.input.port.IApplicantServiceInputPort;
 import com.dap.warehouse.applicant.infrastructure.output.port.IApplicantRepositoryOutputPort;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,9 @@ public class ApplicantServiceImplement implements IApplicantServiceInputPort {
 	
 	@Autowired
 	private ApplicantMapper applicantMapper;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Applicant>> findAll(){
     	
@@ -81,12 +87,21 @@ public class ApplicantServiceImplement implements IApplicantServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Applicant> save(ApplicantRequest applicantRequest) {
+	public ResponseEntity<Applicant> save(ApplicantRequest applicantRequest, String nameMethod) {
 
 		ResponseEntity<Applicant> response;
 		try {
 			var depotResponse = applicantMapper.fromRequestToMapping(applicantRequest.getModelRequest());
 			var applicant = iApplicantRepositoryOutputPort.save(depotResponse);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + applicant)
+					.entity(applicant.getIdApplicant())
+					.user(applicantRequest.getUser())
+					.table(Constants.LOG_TABLE_AREA)
+					.build());
+
 			response = new ResponseEntity<>(applicant, HttpStatus.CREATED);
 			
 		} catch (Exception e) {

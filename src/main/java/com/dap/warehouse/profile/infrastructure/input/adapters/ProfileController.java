@@ -34,12 +34,14 @@ public class ProfileController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Profile> save(@RequestBody ProfileRequest profileRequest){
-		return this.iProfileServiceInputPort.save(profileRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iProfileServiceInputPort.save(profileRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Profile> update(@RequestBody ProfileRequest profileRequest){
-		return this.iProfileServiceInputPort.save(profileRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iProfileServiceInputPort.save(profileRequest, nameMethod);
 	}
 
 }

@@ -1,16 +1,21 @@
 package com.dap.warehouse.status.application;
 
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.status.domain.api.StatusRequest;
 import com.dap.warehouse.status.domain.model.Status;
 import com.dap.warehouse.status.domain.service.StatusMapper;
 import com.dap.warehouse.status.infrastructure.input.port.IStatusServiceInputPort;
 import com.dap.warehouse.status.infrastructure.output.port.IStatusRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +27,9 @@ public class StatusServiceImplement implements IStatusServiceInputPort {
 	
 	@Autowired
 	private StatusMapper statusMapper;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Status>> findAll(){
     	
@@ -80,12 +88,21 @@ public class StatusServiceImplement implements IStatusServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Status> save(StatusRequest statusRequest) {
+	public ResponseEntity<Status> save(StatusRequest statusRequest, String nameMethod) {
 
 		ResponseEntity<Status> response;
 		try {
 			var depotResponse = statusMapper.fromRequestToMapping(statusRequest.getModelRequest());
 			var status = iStatusRepositoryOutputPort.save(depotResponse);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + status)
+					.entity(status.getIdStatus())
+					.user(statusRequest.getUser())
+					.table(Constants.LOG_TABLE_STATUS)
+					.build());
+
 			response = new ResponseEntity<>(status, HttpStatus.CREATED);
 			
 		} catch (Exception e) {

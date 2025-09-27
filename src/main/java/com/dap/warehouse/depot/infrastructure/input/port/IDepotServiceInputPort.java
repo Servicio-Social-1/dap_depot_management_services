@@ -10,6 +10,6 @@ public interface IDepotServiceInputPort {
 	ResponseEntity<List<Depot>> findAll();
 	ResponseEntity<Depot> findById(Integer id);
 	ResponseEntity<Depot> deleteById(Integer id);
-	ResponseEntity<Depot> save(DepotRequest accessRequest);
+	ResponseEntity<Depot> save(DepotRequest accessRequest, String nameMethod);
 
 }

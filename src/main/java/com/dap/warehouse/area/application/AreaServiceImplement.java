@@ -5,12 +5,17 @@ import com.dap.warehouse.area.domain.model.Area;
 import com.dap.warehouse.area.domain.service.AreaMapper;
 import com.dap.warehouse.area.infrastructure.input.port.IAreaServiceInputPort;
 import com.dap.warehouse.area.infrastructure.output.port.IAreaRepositoryOutputPort;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +27,9 @@ public class AreaServiceImplement implements IAreaServiceInputPort {
 	
 	@Autowired
 	private AreaMapper areaMapper;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Area>> findAll(){
     	
@@ -80,12 +88,21 @@ public class AreaServiceImplement implements IAreaServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Area> save(AreaRequest areaRequest) {
+	public ResponseEntity<Area> save(AreaRequest areaRequest, String nameMethod) {
 
 		ResponseEntity<Area> response;
 		try {
 			var depotResponse = areaMapper.fromRequestToMapping(areaRequest.getModelRequest());
 			var area = iAreaRepositoryOutputPort.save(depotResponse);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + area)
+					.entity(area.getIdArea())
+					.user(areaRequest.getUser())
+					.table(Constants.LOG_TABLE_AREA)
+					.build());
+
 			response = new ResponseEntity<>(area, HttpStatus.CREATED);
 			
 		} catch (Exception e) {

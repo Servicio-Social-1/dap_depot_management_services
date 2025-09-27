@@ -1,5 +1,7 @@
 package com.dap.warehouse.management.application;
 
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.management.domain.api.ManagementModel;
 import com.dap.warehouse.management.domain.api.ManagementRequest;
 import com.dap.warehouse.management.domain.model.Management;
@@ -10,6 +12,7 @@ import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.managementmaterial.infrastructure.output.port.IManagementMaterialRepositoryOutputPort;
 import com.dap.warehouse.materialdepot.domain.model.MaterialDepot;
 import com.dap.warehouse.materialdepot.infrastructure.output.port.IMaterialDepotRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -35,6 +38,9 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 
 	@Autowired
 	private IMaterialDepotRepositoryOutputPort iMaterialDepotRepositoryOutputPort;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Management>> findAll(){
     	
@@ -93,7 +99,7 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<ManagementModel> save(ManagementRequest managementRequest) {
+	public ResponseEntity<ManagementModel> save(ManagementRequest managementRequest, String nameMethod) {
 
 		ResponseEntity<ManagementModel> response;
 		try {
@@ -103,6 +109,15 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 			managementRequest.getModelRequest().setFolio(managementResponse.getFolio());
 			var management = iManagementRepositoryOutputPort.save(managementResponse);
 			addMaterialsToManagement(management, materialList);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + management)
+					.entity(management.getIdMaterialManagement())
+					.user(managementRequest.getUser())
+					.table(Constants.LOG_TABLE_MANAGEMENT)
+					.build());
+
 			response = new ResponseEntity<>(managementRequest.getModelRequest(), HttpStatus.CREATED);
 		} catch (Exception e) {
 			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

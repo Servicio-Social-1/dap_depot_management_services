@@ -10,6 +10,6 @@ public interface IUnitServiceInputPort {
 	ResponseEntity<List<Unit>> findAll();
 	ResponseEntity<Unit> findById(Integer id);
 	ResponseEntity<Unit> deleteById(Integer id);
-	ResponseEntity<Unit> save(UnitRequest accessRequest);
+	ResponseEntity<Unit> save(UnitRequest accessRequest, String nameMethod);
 
 }

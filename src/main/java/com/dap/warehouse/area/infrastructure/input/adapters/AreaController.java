@@ -35,12 +35,14 @@ public class AreaController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Area> save(@RequestBody AreaRequest areaRequest){
-		return this.iAreaServiceInputPort.save(areaRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iAreaServiceInputPort.save(areaRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Area> update(@RequestBody AreaRequest areaRequest){
-		return this.iAreaServiceInputPort.save(areaRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iAreaServiceInputPort.save(areaRequest, nameMethod);
 	}
 
 }

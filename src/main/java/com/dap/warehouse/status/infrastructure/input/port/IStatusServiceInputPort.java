@@ -10,6 +10,6 @@ public interface IStatusServiceInputPort {
 	ResponseEntity<List<Status>> findAll();
 	ResponseEntity<Status> findById(Integer id);
 	ResponseEntity<Status> deleteById(Integer id);
-	ResponseEntity<Status> save(StatusRequest accessRequest);
+	ResponseEntity<Status> save(StatusRequest accessRequest, String nameMethod);
 
 }

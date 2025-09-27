@@ -10,6 +10,6 @@ public interface IAreaServiceInputPort {
 	ResponseEntity<List<Area>> findAll();
 	ResponseEntity<Area> findById(Integer id);
 	ResponseEntity<Area> deleteById(Integer id);
-	ResponseEntity<Area> save(AreaRequest accessRequest);
+	ResponseEntity<Area> save(AreaRequest accessRequest, String nameMethod);
 
 }

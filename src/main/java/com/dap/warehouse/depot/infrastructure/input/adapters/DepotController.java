@@ -34,12 +34,14 @@ public class DepotController {
 	
 	@PostMapping("/save")
 	public ResponseEntity<Depot> save(@RequestBody DepotRequest depotRequest){
-		return this.iDepotServiceInputPort.save(depotRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iDepotServiceInputPort.save(depotRequest, nameMethod);
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Depot> update(@RequestBody DepotRequest depotRequest){
-		return this.iDepotServiceInputPort.save(depotRequest);
+		String nameMethod = new Throwable().getStackTrace()[0].getMethodName();
+		return this.iDepotServiceInputPort.save(depotRequest, nameMethod);
 	}
 
 }

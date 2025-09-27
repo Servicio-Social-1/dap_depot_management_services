@@ -1,16 +1,20 @@
 package com.dap.warehouse.profile.application;
 
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.profile.domain.api.ProfileRequest;
 import com.dap.warehouse.profile.domain.model.Profile;
 import com.dap.warehouse.profile.domain.service.ProfileMapper;
 import com.dap.warehouse.profile.infrastructure.input.port.IProfileServiceInputPort;
 import com.dap.warehouse.profile.infrastructure.output.port.IProfileRepositoryOutputPort;
+import com.dap.warehouse.util.Constants;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +26,9 @@ public class ProfileServiceImplement implements IProfileServiceInputPort {
 	
 	@Autowired
 	private ProfileMapper profileMapper;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
     public ResponseEntity<List<Profile>> findAll(){
     	
@@ -80,12 +87,21 @@ public class ProfileServiceImplement implements IProfileServiceInputPort {
 
 	@Override
 	@Transactional
-	public ResponseEntity<Profile> save(ProfileRequest profileRequest) {
+	public ResponseEntity<Profile> save(ProfileRequest profileRequest, String nameMethod) {
 
 		ResponseEntity<Profile> response;
 		try {
 			var profileResponse = profileMapper.fromRequestToMapping(profileRequest.getModelRequest());
 			var profile = iProfileRepositoryOutputPort.save(profileResponse);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + profile)
+					.entity(profile.getIdProfile())
+					.user(profileRequest.getUser())
+					.table(Constants.LOG_TABLE_PROFILE)
+					.build());
+
 			response = new ResponseEntity<>(profile, HttpStatus.CREATED);
 			
 		} catch (Exception e) {
