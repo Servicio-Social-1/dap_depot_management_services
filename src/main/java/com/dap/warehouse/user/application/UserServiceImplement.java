@@ -1,25 +1,34 @@
 package com.dap.warehouse.user.application;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import com.dap.warehouse.access.application.AccessServiceImplement;
+import com.dap.warehouse.log.domain.model.Log;
+import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.user.domain.api.UserRequest;
 import com.dap.warehouse.user.domain.model.User;
 import com.dap.warehouse.user.domain.service.UserMapper;
 import com.dap.warehouse.user.infrastructure.input.port.IUserServiceInputPort;
 import com.dap.warehouse.user.infrastructure.output.port.IUserRepositoryOutputPort;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import com.dap.warehouse.util.Constants;
 
+@Slf4j
 @Service
 public class UserServiceImplement implements IUserServiceInputPort {
-	
+
 	@Autowired
 	private IUserRepositoryOutputPort iUserRepositoryOutputPort;
+
+	@Autowired
+	private ILogRepositoryOutputPort iLogRepositoryOutputPort;
 	
 	@Autowired
 	private UserMapper userMapper;
@@ -98,6 +107,15 @@ public class UserServiceImplement implements IUserServiceInputPort {
 			}
 			userResponse.setPassword(hashedKey);
 			var userProfile = iUserRepositoryOutputPort.save(userResponse);
+
+			iLogRepositoryOutputPort.save(Log.builder()
+					.date(LocalDate.now())
+					.operation(nameMethod + " - > " + userProfile)
+					.entity(userProfile.getIdUser())
+					.user(userRequest.getUser())
+					.table(Constants.LOG_TABLE_USER)
+					.build());
+
 			response = new ResponseEntity<>(userProfile, HttpStatus.CREATED);
 			
 		} catch (Exception e) {
