@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 public class AccessRequest {
 
 	private String mail;
-
 	private String key;
 }

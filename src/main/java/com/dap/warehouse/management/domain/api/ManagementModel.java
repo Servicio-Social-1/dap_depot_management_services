@@ -4,6 +4,7 @@ import com.dap.warehouse.applicant.domain.model.Applicant;
 import com.dap.warehouse.depot.domain.model.Depot;
 import com.dap.warehouse.managementmaterial.domain.model.ManagementMaterial;
 import com.dap.warehouse.user.domain.model.User;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +37,9 @@ public class ManagementModel {
 	private List<ManagementMaterial> materialList;
 
 	private String applicantDocument;
+
+	private String serviceBoos;
+
+	private String jud;
 
 }

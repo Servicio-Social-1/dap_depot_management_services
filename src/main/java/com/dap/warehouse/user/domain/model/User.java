@@ -52,8 +52,5 @@ public class User {
 
 	@Column(name = "FI_ACTIVE")
 	private Boolean active;
-
-	@Column(name = "FC_CONTRACT")
-	private String contract;
 }
 

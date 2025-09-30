@@ -16,8 +16,6 @@ public class ApplicantModel {
 
 	private String name;
 
-	private String contract;
-
 	private Area area;
 
 	private Boolean active;

@@ -31,6 +31,4 @@ public class UserModel {
 
 	private Boolean active;
 
-	private String contract;
-
 }

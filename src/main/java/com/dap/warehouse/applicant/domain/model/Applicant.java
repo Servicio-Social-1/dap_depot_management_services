@@ -23,9 +23,6 @@ public class Applicant {
 	@Column(name = "FC_NAME")
 	private String name;
 
-	@Column(name = "FC_CONTRACT")
-	private String contract;
-
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "FKI_AREA", nullable = false)
 	private Area area;

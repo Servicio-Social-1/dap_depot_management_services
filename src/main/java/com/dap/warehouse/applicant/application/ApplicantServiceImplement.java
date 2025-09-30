@@ -99,7 +99,7 @@ public class ApplicantServiceImplement implements IApplicantServiceInputPort {
 					.operation(nameMethod + " - > " + applicant)
 					.entity(applicant.getIdApplicant())
 					.user(applicantRequest.getUser())
-					.table(Constants.LOG_TABLE_AREA)
+					.table(Constants.LOG_TABLE_APPLICANT)
 					.build());
 
 			response = new ResponseEntity<>(applicant, HttpStatus.CREATED);

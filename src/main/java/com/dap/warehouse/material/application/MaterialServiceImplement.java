@@ -79,11 +79,15 @@ public class MaterialServiceImplement implements IMaterialServiceInputPort {
 		ResponseEntity<Material> response;
 		try {
 			var depotResponse = materialMapper.fromRequestToMapping(materialRequest.getModelRequest());
-            String serialNumber = getSerialNumber();
-			depotResponse.setSerialNumber(serialNumber);
+            if(nameMethod.compareToIgnoreCase("save") == 0){
+				String serialNumber = getSerialNumber();
+				depotResponse.setSerialNumber(serialNumber);
+			}
 			var material = iMaterialRepositoryOutputPort.save(depotResponse);
-			List<Depot> depotList = materialRequest.getModelRequest().getDepotList();
-			addMaterialByStatusAndDepot(depotList, material);
+			if(nameMethod.compareToIgnoreCase("save") == 0) {
+				List<Depot> depotList = materialRequest.getModelRequest().getDepotList();
+				addMaterialByStatusAndDepot(depotList, material);
+			}
 
 			iLogRepositoryOutputPort.save(Log.builder()
 					.date(LocalDate.now())

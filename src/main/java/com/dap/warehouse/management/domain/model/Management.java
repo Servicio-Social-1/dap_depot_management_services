@@ -49,5 +49,11 @@ public class Management {
 
 	@Column(name = "FC_APPLICANT_DOCUMENT")
 	private String applicantDocument;
+
+	@Column(name = "FC_SERVICE_BOOS")
+	private String serviceBoos;
+
+	@Column(name = "FC_JUD")
+	private String jud;
 }
 
