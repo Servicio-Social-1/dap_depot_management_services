@@ -2,6 +2,7 @@ package com.dap.warehouse.management.infrastructure.input.adapters;
 
 import com.dap.warehouse.management.domain.api.ManagementModel;
 import com.dap.warehouse.management.domain.api.ManagementRequest;
+import com.dap.warehouse.management.domain.api.ReportRequest;
 import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.management.infrastructure.input.port.IManagementServiceInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,9 @@ public class ManagementController {
 		return this.iManagementServiceInputPort.save(managementRequest,nameMethod);
 	}
 
+	@PostMapping("/findReport")
+	public ResponseEntity<List<ManagementModel>> findReport(@RequestBody ReportRequest reportRequest){
+		return this.iManagementServiceInputPort.findReport(reportRequest);
+	}
 
 }

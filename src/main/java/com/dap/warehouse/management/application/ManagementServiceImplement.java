@@ -4,6 +4,7 @@ import com.dap.warehouse.log.domain.model.Log;
 import com.dap.warehouse.log.infrastructure.output.port.ILogRepositoryOutputPort;
 import com.dap.warehouse.management.domain.api.ManagementModel;
 import com.dap.warehouse.management.domain.api.ManagementRequest;
+import com.dap.warehouse.management.domain.api.ReportRequest;
 import com.dap.warehouse.management.domain.model.Management;
 import com.dap.warehouse.management.domain.service.ManagementMapper;
 import com.dap.warehouse.management.infrastructure.input.port.IManagementServiceInputPort;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -167,5 +169,70 @@ public class ManagementServiceImplement implements IManagementServiceInputPort {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
 		serialNumber = "MT-" + LocalDate.now().format(format) + lastid;
 		return serialNumber;
+	}
+
+	public ResponseEntity<List<ManagementModel>> findReport(ReportRequest reportRequest){
+
+		ResponseEntity<List<ManagementModel>> response = null;
+		try {
+			if(reportRequest.getStartDate() != null &&
+			   reportRequest.getEndDate() != null &&
+			   reportRequest.getDepot() == null &&
+			   reportRequest.getArea() == null) {
+				List<Management> managementList = iManagementRepositoryOutputPort.managementListByPeriod(reportRequest.getStartDate(), reportRequest.getEndDate());
+				if (!managementList.isEmpty()) {
+                    List<ManagementModel> managementModelList =  new ArrayList<>();
+					for(Management management: managementList){
+						ManagementModel managementModel = managementMapper.fromObjectToModel(management);
+						managementModelList.add(managementModel);
+					}
+					response = new ResponseEntity<>(managementModelList, HttpStatus.OK);
+				} else {
+					response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+			} else if(reportRequest.getStartDate() != null &&
+					reportRequest.getEndDate() != null &&
+					reportRequest.getDepot() != null &&
+					reportRequest.getArea() == null){
+				List<Management> managementList = iManagementRepositoryOutputPort.managementListByPeriodAndDepot(
+						reportRequest.getStartDate(),
+						reportRequest.getEndDate(),
+						reportRequest.getDepot());
+				if (!managementList.isEmpty()) {
+					List<ManagementModel> managementModelList =  new ArrayList<>();
+					for(Management management: managementList){
+						ManagementModel managementModel = managementMapper.fromObjectToModel(management);
+						managementModelList.add(managementModel);
+					}
+					response = new ResponseEntity<>(managementModelList, HttpStatus.OK);
+				} else {
+					response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+			} else if(reportRequest.getStartDate() != null &&
+					reportRequest.getEndDate() != null &&
+					reportRequest.getDepot() != null){
+				List<Management> managementList = iManagementRepositoryOutputPort.managementListByPeriodDepotAndArea(
+						reportRequest.getStartDate(),
+						reportRequest.getEndDate(),
+						reportRequest.getDepot(),
+						reportRequest.getArea());
+				if (!managementList.isEmpty()) {
+					List<ManagementModel> managementModelList =  new ArrayList<>();
+					for(Management management: managementList){
+						ManagementModel managementModel = managementMapper.fromObjectToModel(management);
+						managementModelList.add(managementModel);
+					}
+					response = new ResponseEntity<>(managementModelList, HttpStatus.OK);
+				} else {
+					response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+			} else {
+				response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (Exception e) {
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return response;
+		}
+		return response;
 	}
 }
