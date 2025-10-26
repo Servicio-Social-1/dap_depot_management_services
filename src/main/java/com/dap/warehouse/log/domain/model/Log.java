@@ -24,7 +24,7 @@ public class Log {
 	@Column(name = "FD_DATE")
 	private LocalDate date;
 
-	@Column(name = "FC_OPERATION")
+	@Column(name = "FC_OPERATION", columnDefinition = "MEDIUMTEXT")
 	private String operation;
 
 	@Column(name = "FN_ENTITY")
