@@ -30,17 +30,17 @@ jobs:
       - name: Save Docker image to tar
         run: docker save dap-service | gzip > dap-service.tar.gz
 
-      - name: Copy image to VPS
-        uses: appleboy/scp-action@master
+      - name: Copy image AND docker-compose.yml to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_KEY }}
-          source: "dap-service.tar.gz"
+          source: "dap-service.tar.gz, docker-compose.yml"
           target: "/opt/app/dap_depot_management_services/"
 
       - name: Load image and restart containers on VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
