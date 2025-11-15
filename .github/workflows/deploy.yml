@@ -1,43 +1,27 @@
-name: Deploy Backend
+name: Deploy Backend to VPS
 
+# Se ejecuta al hacer push a la rama main
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clonar repo
-      - name: Checkout code
+      # 1️⃣ Clonar el repositorio
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Configurar Java 17
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      # 3️⃣ Dar permisos a gradlew
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      # 4️⃣ Construir JAR
-      - name: Build JAR
-        run: ./gradlew build -x test
-
-      # 5️⃣ Construir imagen Docker
-      - name: Build Docker image
+      # 2️⃣ Construir el proyecto Java con Gradle (ignorar tests)
+      - name: Build Java project
         run: |
-          docker build -t dap-service:latest .
+          chmod +x ./gradlew
+          ./gradlew build -x test
 
-      # 6️⃣ Guardar imagen como tar
-      - name: Save Docker image to TAR
-        run: docker save dap-service:latest -o dap-service.tar
-
-      # 7️⃣ Conectar a VPS y desplegar
+      # 3️⃣ Desplegar en VPS vía SSH
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -46,10 +30,14 @@ jobs:
           key: ${{ secrets.VPS_KEY }}
           port: 22
           script: |
+            # Ir al directorio del proyecto en la VPS
             cd /opt/app/dap_depot_management_services
-            # Cargar nueva imagen
-            docker load < dap-service.tar
-            # Bajar contenedores antiguos
+
+            # Construir la imagen Docker desde Dockerfile y docker-compose.yml
+            docker compose build
+
+            # Bajar contenedores antiguos si existen
             docker compose down
-            # Levantar contenedores usando .env existente
+
+            # Levantar contenedores usando el .env ya existente
             docker compose up -d
