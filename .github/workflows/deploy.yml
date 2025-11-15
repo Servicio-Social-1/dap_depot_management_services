@@ -5,41 +5,28 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Give Gradlew execute permission
-        run: chmod +x gradlew
-
       - name: Build JAR
         run: ./gradlew build -x test
 
       - name: Build Docker image
-        run: docker build -t dap-service .
+        run: docker build -t dap-service:latest .
 
-      - name: Save Docker image to tar
-        run: docker save dap-service | gzip > dap-service.tar.gz
+      - name: Save image as tar
+        run: docker save dap-service:latest -o dap-service.tar
 
-      - name: Copy image AND docker-compose.yml to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_KEY }}
-          source: "dap-service.tar.gz, docker-compose.yml"
-          target: "/opt/app/dap_depot_management_services/"
-
-      - name: Load image and restart containers on VPS
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -47,6 +34,6 @@ jobs:
           key: ${{ secrets.VPS_KEY }}
           script: |
             cd /opt/app/dap_depot_management_services
-            docker load < dap-service.tar.gz
+            docker load < dap-service.tar
             docker compose down
             docker compose up -d
