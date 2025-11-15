@@ -13,7 +13,7 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./db_backups:/backups   # para backups y acceso fácil
+      - ./db_backups:/backups
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -21,7 +21,8 @@ services:
       start_period: 10s
 
   dapwarehouse:
-    build: .
+    # IMPORTANTE: Referencia la imagen construida en GitHub Actions
+    image: dap-service
     container_name: dap-warehouse
     depends_on:
       mysql:
@@ -31,7 +32,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
-      - "8081:8080"
+      - "8080:8080"
 
 volumes:
   db_data:
