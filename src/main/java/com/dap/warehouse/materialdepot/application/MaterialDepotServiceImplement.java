@@ -137,4 +137,21 @@ public class MaterialDepotServiceImplement implements IMaterialDepotServiceInput
 		return response;
 	}
 
+	@Override
+	public ResponseEntity<List<MaterialDepot>> findByMaterialId(Integer materialId) {
+		ResponseEntity<List<MaterialDepot>> response = null;
+		try {
+			List<MaterialDepot> materialDepotList = this.iMaterialDepotRepositoryOutputPort.findByMaterialId(materialId);
+			if (!materialDepotList.isEmpty()) {
+				response = new ResponseEntity<>(materialDepotList, HttpStatus.OK);
+			} else {
+				response = new ResponseEntity<>(materialDepotList, HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return response;
+		}
+		return response;
+	}
+
 }

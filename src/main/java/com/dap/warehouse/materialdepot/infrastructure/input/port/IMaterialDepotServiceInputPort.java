@@ -14,5 +14,5 @@ public interface IMaterialDepotServiceInputPort {
 	ResponseEntity<MaterialDepot> save(MaterialDepotRequest accessRequest);
 	ResponseEntity<List<MaterialDepot>> findByDepotId(Integer depotId);
 	ResponseEntity<List<MaterialDepotDuplicated>> findDuplicated(DuplicatedRequest duplicatedRequest);
-
+	ResponseEntity<List<MaterialDepot>> findByMaterialId(Integer materialId);
 }

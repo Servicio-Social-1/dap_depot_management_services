@@ -15,4 +15,7 @@ public interface IMaterialDepotRepositoryOutputPort extends JpaRepository<Materi
 
     @Query("SELECT md FROM MaterialDepot md WHERE md.material = :material AND md.depot = :depot AND md.status = :status")
     MaterialDepot findByUniqueFields(Material material, Depot depot, Status status);
+
+    @Query("SELECT md FROM MaterialDepot md WHERE md.material.idMaterial = :materialId")
+    List<MaterialDepot> findByMaterialId(Integer materialId);
 }

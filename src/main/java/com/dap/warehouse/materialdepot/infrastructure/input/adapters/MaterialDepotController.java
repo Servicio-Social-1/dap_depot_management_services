@@ -48,4 +48,9 @@ public class MaterialDepotController {
 	public ResponseEntity<List<MaterialDepotDuplicated>> findDuplicated(@RequestBody DuplicatedRequest duplicatedRequest){
 		return this.iMaterialDepotServiceInputPort.findDuplicated(duplicatedRequest);
 	}
+
+	@GetMapping("/findByMaterial/{materialId}")
+	public ResponseEntity<List<MaterialDepot>> findByMaterialId(@PathVariable("materialId") Integer materialId){
+		return this.iMaterialDepotServiceInputPort.findByMaterialId(materialId);
+	}
 }
