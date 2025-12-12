@@ -4,6 +4,8 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql
+    restart: unless-stopped
+    mem_limit: 1g
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -14,6 +16,11 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./db_backups:/backups
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -21,9 +28,10 @@ services:
       start_period: 10s
 
   dapwarehouse:
-    # IMPORTANTE: Referencia la imagen construida en GitHub Actions
     image: dap-service
     container_name: dap-warehouse
+    restart: unless-stopped
+    mem_limit: 512m
     depends_on:
       mysql:
         condition: service_healthy
@@ -33,6 +41,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "8080:8080"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   db_data:

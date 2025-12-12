@@ -1,5 +1,4 @@
 package com.dap.warehouse.applicant.domain.api;
-
 import com.dap.warehouse.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
