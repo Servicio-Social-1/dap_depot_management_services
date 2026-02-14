@@ -1,8 +1,10 @@
 # ---------- Build stage ----------
-FROM gradle:8.5-jdk17 AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY . .
-RUN gradle build -x
+RUN chmod +x gradlew
+RUN ./gradlew build -x test
+
 # ---------- Runtime stage ----------
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
